@@ -42,7 +42,7 @@ export default function Attendance() {
   const [filterStatus, setFilterStatus] = useState("all");
   
   // Mock user role - replace with real authentication
-  const userRole: "intern" | "admin" = "admin"; // Change this value to test different roles
+  const userRole = useState<"intern" | "admin">("admin")[0]; // Change this value to test different roles
 
   const filteredInterns = mockInterns.filter(intern => {
     const matchesSearch = intern.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

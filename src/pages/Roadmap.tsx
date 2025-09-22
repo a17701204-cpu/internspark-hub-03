@@ -84,6 +84,9 @@ const getStatusBadge = (status: string) => {
 };
 
 export default function Roadmap() {
+  // Mock user role - replace with real authentication
+  const userRole = "admin" as "intern" | "admin"; // Change this value to test different roles
+
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
@@ -140,23 +143,35 @@ export default function Roadmap() {
                             {step.resources.map((resource, resourceIndex) => (
                               <div
                                 key={resourceIndex}
-                                className="flex items-center gap-2 px-3 py-1 bg-muted rounded-md text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                                className={`flex items-center gap-2 px-3 py-1 bg-muted rounded-md text-sm cursor-pointer hover:bg-muted/80 transition-colors ${
+                                  userRole !== "admin" ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
+                                onClick={() => userRole === "admin" ? window.open('#', '_blank') : null}
                               >
                                 <BookOpen className="h-3 w-3" />
                                 {resource}
-                                <ExternalLink className="h-3 w-3 opacity-50" />
+                                {userRole === "admin" ? (
+                                  <ExternalLink className="h-3 w-3 opacity-50" />
+                                ) : (
+                                  <span className="text-xs">Admin Only</span>
+                                )}
                               </div>
                             ))}
                           </div>
-                          {step.status === "current" && (
+                          {step.status === "current" && userRole === "admin" && (
                             <Button size="sm" className="bg-gradient-primary">
                               Continue Learning
                             </Button>
                           )}
-                          {step.status === "upcoming" && (
+                          {step.status === "upcoming" && userRole === "admin" && (
                             <Button size="sm" variant="outline">
                               Get Ready
                             </Button>
+                          )}
+                          {userRole !== "admin" && (
+                            <p className="text-sm text-muted-foreground">
+                              Contact admin to access learning materials
+                            </p>
                           )}
                         </div>
                       </div>

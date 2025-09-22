@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bell, Calendar, TrendingUp, Users } from "lucide-react";
+import { useState } from "react";
 
 const mockNotifications = [
   {
@@ -69,8 +70,8 @@ const stats = [
 ];
 
 export default function Home() {
-  // Mock user role - replace with real authentication
-  const userRole: "intern" | "admin" = "admin"; // Change this value to test different roles
+  // Mock user role - replace with real authentication  
+  const userRole = useState<"intern" | "admin">("admin")[0]; // Change this value to test different roles
 
   return (
     <div className="space-y-8 animate-fade-in">

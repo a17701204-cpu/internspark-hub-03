@@ -169,6 +169,9 @@ const quickLinks = [
 ];
 
 export default function Tools() {
+  // Mock user role - replace with real authentication
+  const userRole = "admin" as "intern" | "admin"; // Change this value to test different roles
+
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
@@ -193,14 +196,20 @@ export default function Tools() {
             {quickLinks.map((link, index) => (
               <div
                 key={index}
-                className="p-4 rounded-lg bg-gradient-card border border-border hover:shadow-md transition-all duration-200 cursor-pointer group"
-                onClick={() => window.open(link.url, '_blank')}
+                className={`p-4 rounded-lg bg-gradient-card border border-border hover:shadow-md transition-all duration-200 cursor-pointer group ${
+                  userRole !== "admin" ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={() => userRole === "admin" ? window.open(link.url, '_blank') : null}
               >
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold group-hover:text-primary transition-colors">
                     {link.name}
                   </h4>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  {userRole === "admin" ? (
+                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  ) : (
+                    <span className="text-xs bg-muted px-2 py-1 rounded">Admin Only</span>
+                  )}
                 </div>
                 <p className="text-sm text-muted-foreground">{link.description}</p>
               </div>
@@ -250,10 +259,11 @@ export default function Tools() {
                         variant="outline" 
                         size="sm" 
                         className="w-full group-hover:bg-primary group-hover:text-white transition-all"
-                        onClick={() => window.open(tool.url, '_blank')}
+                        onClick={() => userRole === "admin" ? window.open(tool.url, '_blank') : null}
+                        disabled={userRole !== "admin"}
                       >
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Open Tool
+                        {userRole === "admin" ? "Open Tool" : "Admin Only"}
                       </Button>
                     </div>
                   ))}

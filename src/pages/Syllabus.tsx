@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Download, ExternalLink, Plus } from "lucide-react";
+import { useState } from "react";
 
 const mockSyllabus = [
   {
@@ -43,7 +44,7 @@ const mockSyllabus = [
 
 export default function Syllabus() {
   // Mock user role - replace with real authentication
-  const userRole: "intern" | "admin" = "admin"; // Change this value to test different roles
+  const userRole = useState<"intern" | "admin">("admin")[0]; // Change this value to test different roles
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -121,6 +122,9 @@ export default function Syllabus() {
                     >
                       {getResourceIcon(resource.type)}
                       <span className="text-sm font-medium">{resource.name}</span>
+                      {userRole === "admin" && (
+                        <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto" />
+                      )}
                     </div>
                   ))}
                 </div>
